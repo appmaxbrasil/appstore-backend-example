@@ -3,7 +3,7 @@ package contracts
 import (
 	"context"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
 )
 
 type WebhookEventRepository interface {

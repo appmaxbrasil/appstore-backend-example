@@ -3,7 +3,7 @@ package models_test
 import (
 	"testing"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	gatewaycontracts "github.com/geovanne-gallinati/AppStoreAppDemo/app/gateway/appmax/contracts"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
+	gatewaycontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax/contracts"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
 )
 
 const tokenExpiryBuffer = 60 * time.Second

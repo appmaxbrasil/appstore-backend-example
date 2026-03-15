@@ -1,6 +1,6 @@
 package appmax
 
-import gatewaycontracts "github.com/geovanne-gallinati/AppStoreAppDemo/app/gateway/appmax/contracts"
+import gatewaycontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax/contracts"
 
 type CreditCardData = gatewaycontracts.CreditCardData
 

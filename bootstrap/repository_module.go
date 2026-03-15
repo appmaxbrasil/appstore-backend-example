@@ -3,8 +3,8 @@ package bootstrap
 import (
 	"fmt"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/repositories"
-	repocontracts "github.com/geovanne-gallinati/AppStoreAppDemo/app/repositories/contracts"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories"
+	repocontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
 )
 
 type RepositoryModule struct {

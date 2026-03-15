@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	gatewaycontracts "github.com/geovanne-gallinati/AppStoreAppDemo/app/gateway/appmax/contracts"
+	gatewaycontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax/contracts"
 )
 
 const (

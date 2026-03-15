@@ -16,9 +16,9 @@ import (
 	contractsfoundation "github.com/goravel/framework/contracts/foundation"
 	contractsschema     "github.com/goravel/framework/contracts/database/schema"
 
-	_ "github.com/geovanne-gallinati/AppStoreAppDemo/config"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/database/migrations"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/routes"
+	_ "github.com/geovannegallinati/AppStore-Appmax-App-Integration/config"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/database/migrations"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/routes"
 )
 
 func main() {

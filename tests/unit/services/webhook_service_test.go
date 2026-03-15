@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/services"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/tests/unit/mocks"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/tests/unit/mocks"
 )
 
 func intPtr(v int) *int { return &v }

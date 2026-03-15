@@ -1,4 +1,4 @@
-module github.com/geovanne-gallinati/AppStoreAppDemo
+module github.com/geovannegallinati/AppStore-Appmax-App-Integration
 
 go 1.25.5
 

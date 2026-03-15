@@ -7,8 +7,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/repositories/contracts"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
 )
 
 type UpsertInstallationInput struct {

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/requests"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/requests"
 )
 
 func TestWebhookDataRequest_OrderIDFromNumber(t *testing.T) {

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/repositories/contracts"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
 )
 
 var webhookStatusMap = map[string]string{

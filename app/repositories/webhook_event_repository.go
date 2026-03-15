@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/repositories/contracts"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
 )
 
 type webhookEventRepository struct {

@@ -3,8 +3,8 @@ package bootstrap
 import (
 	"fmt"
 
-	adaptergoravel "github.com/geovanne-gallinati/AppStoreAppDemo/app/adapters/goravel"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/services"
+	adaptergoravel "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/adapters/goravel"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
 )
 
 type ServiceModule struct {

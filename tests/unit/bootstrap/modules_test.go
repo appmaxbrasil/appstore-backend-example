@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/bootstrap"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/bootstrap"
 )
 
 type fakeORM struct{}

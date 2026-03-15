@@ -10,3 +10,4 @@ appmax-auth-llm-context
 docs
 *.json
 *.DS_Store
+.gomodcache/

@@ -21,9 +21,9 @@ import (
 	"github.com/chromedp/chromedp"
 	"github.com/stretchr/testify/require"
 
-	gatewayappmax "github.com/geovanne-gallinati/AppStoreAppDemo/app/gateway/appmax"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/services"
+	gatewayappmax "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
 )
 
 var _ services.TokenManager = (*testTokenManager)(nil)

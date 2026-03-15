@@ -4,8 +4,8 @@ import (
 	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/middleware"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/bootstrap"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/middleware"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/bootstrap"
 )
 
 func Api() {

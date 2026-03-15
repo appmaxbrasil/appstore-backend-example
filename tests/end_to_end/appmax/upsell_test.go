@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/services"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
 )
 
 func TestUpsell(t *testing.T) {

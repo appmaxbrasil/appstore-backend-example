@@ -8,11 +8,11 @@ import (
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/facades"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/middleware"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/requests"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/responses"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/models"
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/services"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/middleware"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/requests"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/responses"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
 )
 
 type CheckoutController struct {

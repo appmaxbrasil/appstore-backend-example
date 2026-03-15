@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovanne-gallinati/AppStoreAppDemo/app/http/controllers"
+	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
 )
 
 func TestControllerConstructors_RejectNilDependency(t *testing.T) {
