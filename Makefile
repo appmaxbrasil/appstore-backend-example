@@ -8,7 +8,7 @@ COMPOSE = docker compose -f docker-compose.yml
 
 .PHONY: install teardown env-init generate-key up down restart logs health validate rename-module migrate
 
-install: env-init generate-key teardown up validate
+install: env-init generate-key teardown up migrate validate
 	@echo "Stack is ready."
 
 env-init:
