@@ -113,4 +113,4 @@ rename-module:
 	@bash scripts/rename-module.sh $(NEW)
 
 migrate:
-	$(COMPOSE) exec app ./server artisan migrate
+	$(COMPOSE) exec app ./tmp/server artisan migrate
