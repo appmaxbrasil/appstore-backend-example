@@ -58,6 +58,7 @@ func (c *CheckoutController) PayCreditCard(ctx http.Context) http.Response {
 			Installments:         body.Payment.Installments,
 			SoftDescriptor:       body.Payment.SoftDescriptor,
 		},
+		Subscription: toServiceSubscription(body.Subscription),
 	}
 
 	result, err := c.checkoutSvc.ProcessCreditCard(ctx.Context(), inst, input)
@@ -70,8 +71,9 @@ func (c *CheckoutController) PayCreditCard(ctx http.Context) http.Response {
 	}
 
 	return ctx.Response().Json(200, responses.CheckoutCreditCardResponse{
-		OrderID: result.OrderID,
-		Status:  result.Status,
+		OrderID:    result.OrderID,
+		Status:     result.Status,
+		UpsellHash: result.UpsellHash,
 	})
 }
 
@@ -90,6 +92,7 @@ func (c *CheckoutController) PayPix(ctx http.Context) http.Response {
 		Customer:       toCustomerInput(body.Customer),
 		Order:          toOrderInput(body.Order),
 		DocumentNumber: body.DocumentNumber,
+		Subscription:   toServiceSubscription(body.Subscription),
 	}
 
 	result, err := c.checkoutSvc.ProcessPix(ctx.Context(), inst, input)
@@ -219,6 +222,96 @@ func (c *CheckoutController) Refund(ctx http.Context) http.Response {
 	}
 
 	return ctx.Response().Json(200, responses.MessageResponse{Message: "Refund request accepted"})
+}
+
+func (c *CheckoutController) Tokenize(ctx http.Context) http.Response {
+	inst, ok := installationFromCtx(ctx)
+	if !ok {
+		return ctx.Response().Json(500, responses.MessageResponse{Message: "installation context missing"})
+	}
+
+	var body requests.CheckoutTokenizeRequest
+	if err := ctx.Request().Bind(&body); err != nil {
+		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid request body"})
+	}
+
+	token, err := c.checkoutSvc.Tokenize(ctx.Context(), inst, services.TokenizeInput{
+		Number:          body.Number,
+		CVV:             body.CVV,
+		ExpirationMonth: body.ExpirationMonth,
+		ExpirationYear:  body.ExpirationYear,
+		HolderName:      body.HolderName,
+	})
+	if err != nil {
+		facades.Log().Errorf("checkout_controller: tokenize failed: %v", err)
+		return ctx.Response().Json(502, responses.MessageResponse{Message: "tokenization failed"})
+	}
+
+	return ctx.Response().Json(200, responses.CheckoutTokenizeResponse{Token: token})
+}
+
+func (c *CheckoutController) AddTracking(ctx http.Context) http.Response {
+	inst, ok := installationFromCtx(ctx)
+	if !ok {
+		return ctx.Response().Json(500, responses.MessageResponse{Message: "installation context missing"})
+	}
+
+	var body requests.CheckoutTrackingRequest
+	if err := ctx.Request().Bind(&body); err != nil {
+		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid request body"})
+	}
+
+	if body.OrderID <= 0 {
+		return ctx.Response().Json(400, responses.MessageResponse{Message: "order_id is required"})
+	}
+
+	err := c.checkoutSvc.AddTracking(ctx.Context(), inst, services.TrackingInput{
+		OrderID:              body.OrderID,
+		ShippingTrackingCode: body.ShippingTrackingCode,
+	})
+	if err != nil {
+		facades.Log().Errorf("checkout_controller: tracking failed: %v", err)
+		return ctx.Response().Json(502, responses.MessageResponse{Message: "tracking update failed"})
+	}
+
+	return ctx.Response().Json(200, responses.CheckoutTrackingResponse{Message: "tracking accepted"})
+}
+
+func (c *CheckoutController) Upsell(ctx http.Context) http.Response {
+	inst, ok := installationFromCtx(ctx)
+	if !ok {
+		return ctx.Response().Json(500, responses.MessageResponse{Message: "installation context missing"})
+	}
+
+	var body requests.CheckoutUpsellRequest
+	if err := ctx.Request().Bind(&body); err != nil {
+		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid request body"})
+	}
+
+	result, err := c.checkoutSvc.ProcessUpsell(ctx.Context(), inst, services.UpsellInput{
+		UpsellHash:    body.UpsellHash,
+		ProductsValue: body.ProductsValue,
+		Products:      toServiceProducts(body.Products),
+	})
+	if err != nil {
+		facades.Log().Errorf("checkout_controller: upsell failed: %v", err)
+		return ctx.Response().Json(502, responses.MessageResponse{Message: "upsell failed"})
+	}
+
+	return ctx.Response().Json(200, responses.CheckoutUpsellResponse{
+		Message:     result.Message,
+		RedirectURL: result.RedirectURL,
+	})
+}
+
+func toServiceSubscription(sub *requests.CheckoutSubscription) *services.Subscription {
+	if sub == nil {
+		return nil
+	}
+	return &services.Subscription{
+		Interval:      sub.Interval,
+		IntervalCount: sub.IntervalCount,
+	}
 }
 
 func toServiceAddress(address *requests.Address) *services.Address {

@@ -138,20 +138,25 @@ type CreditCardData struct {
 	SoftDescriptor       string `json:"soft_descriptor,omitempty"`
 }
 
+type Subscription struct {
+	Interval      string `json:"interval"`
+	IntervalCount int    `json:"interval_count"`
+}
+
 type CreditCardRequest struct {
 	OrderID     int `json:"order_id"`
 	CustomerID  int `json:"customer_id"`
 	PaymentData struct {
-		CreditCard CreditCardData `json:"credit_card"`
+		CreditCard   CreditCardData `json:"credit_card"`
+		Subscription *Subscription  `json:"subscription,omitempty"`
 	} `json:"payment_data"`
 }
 
 type CreditCardResponse struct {
 	Data struct {
 		Payment struct {
-			ID         int    `json:"id"`
-			Status     string `json:"status"`
-			UpsellHash string `json:"upsell_hash,omitempty"`
+			PayReference string `json:"pay_reference"`
+			UpsellHash   string `json:"upsell_hash,omitempty"`
 		} `json:"payment"`
 	} `json:"data"`
 }
@@ -162,14 +167,15 @@ type PixRequest struct {
 		Pix struct {
 			DocumentNumber string `json:"document_number"`
 		} `json:"pix"`
+		Subscription *Subscription `json:"subscription,omitempty"`
 	} `json:"payment_data"`
 }
 
 type PixResponse struct {
 	Data struct {
 		Payment struct {
-			QRCode string `json:"qr_code"`
-			EMV    string `json:"emv"`
+			QRCode string `json:"pix_qrcode"`
+			EMV    string `json:"pix_emv"`
 		} `json:"payment"`
 	} `json:"data"`
 }
@@ -186,8 +192,8 @@ type BoletoRequest struct {
 type BoletoResponse struct {
 	Data struct {
 		Payment struct {
-			PDFURL    string `json:"pdf_url"`
-			Digitavel string `json:"digitavel"`
+			PDFURL    string `json:"boleto_link_pdf"`
+			Digitavel string `json:"boleto_digitable_line"`
 		} `json:"payment"`
 	} `json:"data"`
 }
@@ -205,7 +211,9 @@ type InstallmentItem struct {
 }
 
 type InstallmentsResponse struct {
-	Data []InstallmentItem `json:"data"`
+	Data struct {
+		Parcels map[string]float64 `json:"parcels"`
+	} `json:"data"`
 }
 
 type RefundRequest struct {
@@ -222,10 +230,8 @@ type UpsellRequest struct {
 
 type UpsellResponse struct {
 	Data struct {
-		Order struct {
-			ID     int    `json:"id"`
-			Status string `json:"status"`
-		} `json:"order"`
+		Message     string `json:"message"`
+		RedirectURL string `json:"redirect_url"`
 	} `json:"data"`
 }
 

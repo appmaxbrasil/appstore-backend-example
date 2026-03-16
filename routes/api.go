@@ -30,5 +30,8 @@ func Api() {
 		r.Post("/pay/pix", deps.CheckoutController.PayPix)
 		r.Post("/pay/boleto", deps.CheckoutController.PayBoleto)
 		r.Post("/refund", deps.CheckoutController.Refund)
+		r.Post("/tokenize", deps.CheckoutController.Tokenize)
+		r.Post("/tracking", deps.CheckoutController.AddTracking)
+		r.Post("/upsell", deps.CheckoutController.Upsell)
 	})
 }

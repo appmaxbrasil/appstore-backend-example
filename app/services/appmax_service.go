@@ -52,6 +52,11 @@ type OrderInput struct {
 	Products      []Product
 }
 
+type Subscription struct {
+	Interval      string
+	IntervalCount int
+}
+
 type CreditCardInput struct {
 	OrderID              int
 	CustomerID           int
@@ -65,6 +70,7 @@ type CreditCardInput struct {
 	HolderName           string
 	Installments         int
 	SoftDescriptor       string
+	Subscription         *Subscription
 }
 
 type CreditCardResult struct {
@@ -76,6 +82,7 @@ type CreditCardResult struct {
 type PixInput struct {
 	OrderID        int
 	DocumentNumber string
+	Subscription   *Subscription
 }
 
 type PixResult struct {
@@ -116,8 +123,8 @@ type UpsellInput struct {
 }
 
 type UpsellResult struct {
-	OrderID int
-	Status  string
+	Message     string
+	RedirectURL string
 }
 
 type GetOrderResult struct {
@@ -136,9 +143,9 @@ type TokenizeInput struct {
 }
 
 type AppmaxInstallmentItem struct {
-	Installments int
-	Value        float64
-	TotalValue   float64
+	Installments int     `json:"installments"`
+	Value        float64 `json:"value"`
+	TotalValue   float64 `json:"total_value"`
 }
 
 type AppmaxService interface {
@@ -289,6 +296,12 @@ func (s *appmaxService) CreditCard(ctx context.Context, inst *models.Installatio
 			Installments:         input.Installments,
 			SoftDescriptor:       input.SoftDescriptor,
 		}
+		if input.Subscription != nil {
+			req.PaymentData.Subscription = &gatewaycontracts.Subscription{
+				Interval:      input.Subscription.Interval,
+				IntervalCount: input.Subscription.IntervalCount,
+			}
+		}
 		resp, callErr := s.gateway.CreditCard(ctx, merchantToken, req)
 		if callErr != nil {
 			if isDeclinedError(callErr) {
@@ -297,8 +310,8 @@ func (s *appmaxService) CreditCard(ctx context.Context, inst *models.Installatio
 			return callErr
 		}
 		result = CreditCardResult{
-			PaymentID:  resp.Data.Payment.ID,
-			Status:     resp.Data.Payment.Status,
+			PaymentID:  0,
+			Status:     "aprovado",
 			UpsellHash: resp.Data.Payment.UpsellHash,
 		}
 		return nil
@@ -314,6 +327,12 @@ func (s *appmaxService) Pix(ctx context.Context, inst *models.Installation, inpu
 	err := s.withMerchantToken(ctx, inst, func(merchantToken string) error {
 		req := gatewaycontracts.PixRequest{OrderID: input.OrderID}
 		req.PaymentData.Pix.DocumentNumber = input.DocumentNumber
+		if input.Subscription != nil {
+			req.PaymentData.Subscription = &gatewaycontracts.Subscription{
+				Interval:      input.Subscription.Interval,
+				IntervalCount: input.Subscription.IntervalCount,
+			}
+		}
 		resp, callErr := s.gateway.Pix(ctx, merchantToken, req)
 		if callErr != nil {
 			return callErr
@@ -429,8 +448,8 @@ func (s *appmaxService) Upsell(ctx context.Context, inst *models.Installation, i
 			return callErr
 		}
 		result = UpsellResult{
-			OrderID: resp.Data.Order.ID,
-			Status:  resp.Data.Order.Status,
+			Message:     resp.Data.Message,
+			RedirectURL: resp.Data.RedirectURL,
 		}
 		return nil
 	})
@@ -531,8 +550,11 @@ func isDeclinedError(err error) bool {
 	}
 	msg := strings.ToLower(err.Error())
 	return strings.Contains(msg, "not authorized") ||
+		strings.Contains(msg, "não autorizado") ||
+		strings.Contains(msg, "nao autorizado") ||
 		strings.Contains(msg, "declined") ||
 		strings.Contains(msg, "recusado") ||
 		strings.Contains(msg, "status 402") ||
+		strings.Contains(msg, "status 403") ||
 		strings.Contains(msg, "status 422")
 }

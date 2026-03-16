@@ -9,15 +9,17 @@ import (
 )
 
 type CheckoutCreditCardInput struct {
-	Customer CustomerInput
-	Order    OrderInput
-	Payment  CreditCardInput
+	Customer     CustomerInput
+	Order        OrderInput
+	Payment      CreditCardInput
+	Subscription *Subscription
 }
 
 type CheckoutPixInput struct {
 	Customer       CustomerInput
 	Order          OrderInput
 	DocumentNumber string
+	Subscription   *Subscription
 }
 
 type CheckoutBoletoInput struct {
@@ -51,6 +53,9 @@ type CheckoutService interface {
 	GetOrderStatus(ctx context.Context, inst *models.Installation, appmaxOrderID int) (string, error)
 	GetInstallments(ctx context.Context, inst *models.Installation, input InstallmentsInput) ([]AppmaxInstallmentItem, error)
 	ProcessRefund(ctx context.Context, inst *models.Installation, input RefundInput) error
+	Tokenize(ctx context.Context, inst *models.Installation, input TokenizeInput) (string, error)
+	AddTracking(ctx context.Context, inst *models.Installation, input TrackingInput) error
+	ProcessUpsell(ctx context.Context, inst *models.Installation, input UpsellInput) (UpsellResult, error)
 }
 
 type checkoutService struct {
@@ -86,6 +91,7 @@ func (s *checkoutService) ProcessCreditCard(ctx context.Context, inst *models.In
 
 	input.Payment.OrderID = appmaxOrderID
 	input.Payment.CustomerID = customerID
+	input.Payment.Subscription = input.Subscription
 
 	payResult, payErr := s.appmaxSvc.CreditCard(ctx, inst, input.Payment)
 	status := "cancelado"
@@ -123,6 +129,7 @@ func (s *checkoutService) ProcessPix(ctx context.Context, inst *models.Installat
 	pixResult, pixErr := s.appmaxSvc.Pix(ctx, inst, PixInput{
 		OrderID:        appmaxOrderID,
 		DocumentNumber: input.DocumentNumber,
+		Subscription:   input.Subscription,
 	})
 
 	status := "pendente"
@@ -207,6 +214,22 @@ func (s *checkoutService) GetInstallments(ctx context.Context, inst *models.Inst
 
 func (s *checkoutService) ProcessRefund(ctx context.Context, inst *models.Installation, input RefundInput) error {
 	return s.appmaxSvc.Refund(ctx, inst, input)
+}
+
+func (s *checkoutService) Tokenize(ctx context.Context, inst *models.Installation, input TokenizeInput) (string, error) {
+	return s.appmaxSvc.Tokenize(ctx, inst, input)
+}
+
+func (s *checkoutService) AddTracking(ctx context.Context, inst *models.Installation, input TrackingInput) error {
+	return s.appmaxSvc.AddTracking(ctx, inst, input)
+}
+
+func (s *checkoutService) ProcessUpsell(ctx context.Context, inst *models.Installation, input UpsellInput) (UpsellResult, error) {
+	result, err := s.appmaxSvc.Upsell(ctx, inst, input)
+	if err != nil {
+		return UpsellResult{}, fmt.Errorf("checkout upsell: %w", err)
+	}
+	return result, nil
 }
 
 func (s *checkoutService) createCustomerAndOrder(ctx context.Context, inst *models.Installation, customer CustomerInput, order OrderInput, flow string) (int, int, error) {

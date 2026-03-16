@@ -49,15 +49,17 @@ type CheckoutCreditCardPayment struct {
 }
 
 type CheckoutCreditCardRequest struct {
-	Customer Customer                  `json:"customer"`
-	Order    Order                     `json:"order"`
-	Payment  CheckoutCreditCardPayment `json:"payment"`
+	Customer     Customer                  `json:"customer"`
+	Order        Order                     `json:"order"`
+	Payment      CheckoutCreditCardPayment `json:"payment"`
+	Subscription *CheckoutSubscription     `json:"subscription,omitempty"`
 }
 
 type CheckoutPixRequest struct {
-	Customer       Customer `json:"customer"`
-	Order          Order    `json:"order"`
-	DocumentNumber string   `json:"document_number"`
+	Customer       Customer              `json:"customer"`
+	Order          Order                 `json:"order"`
+	DocumentNumber string                `json:"document_number"`
+	Subscription   *CheckoutSubscription `json:"subscription,omitempty"`
 }
 
 type CheckoutBoletoRequest struct {
@@ -70,4 +72,28 @@ type CheckoutRefundRequest struct {
 	OrderID int    `json:"order_id"`
 	Type    string `json:"type"`
 	Value   int    `json:"value"`
+}
+
+type CheckoutSubscription struct {
+	Interval      string `json:"interval"`
+	IntervalCount int    `json:"interval_count"`
+}
+
+type CheckoutTokenizeRequest struct {
+	Number          string `json:"number"`
+	CVV             string `json:"cvv"`
+	ExpirationMonth string `json:"expiration_month"`
+	ExpirationYear  string `json:"expiration_year"`
+	HolderName      string `json:"holder_name"`
+}
+
+type CheckoutTrackingRequest struct {
+	OrderID              int    `json:"order_id"`
+	ShippingTrackingCode string `json:"shipping_tracking_code"`
+}
+
+type CheckoutUpsellRequest struct {
+	UpsellHash    string    `json:"upsell_hash"`
+	ProductsValue int       `json:"products_value"`
+	Products      []Product `json:"products"`
 }

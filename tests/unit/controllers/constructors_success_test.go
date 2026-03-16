@@ -80,6 +80,15 @@ func (noopCheckoutService) GetInstallments(context.Context, *models.Installation
 func (noopCheckoutService) ProcessRefund(context.Context, *models.Installation, services.RefundInput) error {
 	return nil
 }
+func (noopCheckoutService) Tokenize(context.Context, *models.Installation, services.TokenizeInput) (string, error) {
+	return "", nil
+}
+func (noopCheckoutService) AddTracking(context.Context, *models.Installation, services.TrackingInput) error {
+	return nil
+}
+func (noopCheckoutService) ProcessUpsell(context.Context, *models.Installation, services.UpsellInput) (services.UpsellResult, error) {
+	return services.UpsellResult{}, nil
+}
 
 type noopWebhookService struct{}
 
