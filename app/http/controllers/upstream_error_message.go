@@ -2,14 +2,53 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
 const refundFailedMessage = "refund request failed"
 
+var unexpectedStatusPattern = regexp.MustCompile(`unexpected status (\d{3})`)
+
+type upstreamStatusError interface {
+	HTTPStatus() int
+}
+
+type upstreamMessageError interface {
+	UpstreamMessage() string
+}
+
+func upstreamErrorStatus(err error, fallback int) int {
+	if err == nil {
+		return fallback
+	}
+
+	var statusErr upstreamStatusError
+	if errors.As(err, &statusErr) {
+		if code := statusErr.HTTPStatus(); code >= 100 && code <= 599 {
+			return code
+		}
+	}
+
+	if code := extractStatusCode(err.Error()); code >= 100 && code <= 599 {
+		return code
+	}
+
+	return fallback
+}
+
 func upstreamErrorMessage(err error, fallback string) string {
 	if err == nil {
 		return fallback
+	}
+
+	var messageErr upstreamMessageError
+	if errors.As(err, &messageErr) {
+		if message := strings.TrimSpace(messageErr.UpstreamMessage()); message != "" {
+			return message
+		}
 	}
 
 	message := extractUpstreamMessage(err.Error())
@@ -59,4 +98,18 @@ func parseUpstreamMessageJSON(payload string) string {
 	}
 
 	return objectPayload.Message
+}
+
+func extractStatusCode(raw string) int {
+	matches := unexpectedStatusPattern.FindStringSubmatch(raw)
+	if len(matches) != 2 {
+		return 0
+	}
+
+	code, err := strconv.Atoi(matches[1])
+	if err != nil {
+		return 0
+	}
+
+	return code
 }
