@@ -1,5 +1,10 @@
 package responses
 
+type CheckoutCreateOrderResponse struct {
+	CustomerID int `json:"customer_id"`
+	OrderID    int `json:"order_id"`
+}
+
 type CheckoutCreditCardResponse struct {
 	OrderID    int    `json:"order_id"`
 	Status     string `json:"status"`

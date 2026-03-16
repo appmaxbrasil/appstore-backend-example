@@ -8,7 +8,14 @@ import (
 	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
 )
 
+type CheckoutCreateOrderResult struct {
+	CustomerID int
+	OrderID    int
+}
+
 type CheckoutCreditCardInput struct {
+	CustomerID   int
+	OrderID      int
 	Customer     CustomerInput
 	Order        OrderInput
 	Payment      CreditCardInput
@@ -16,6 +23,8 @@ type CheckoutCreditCardInput struct {
 }
 
 type CheckoutPixInput struct {
+	CustomerID     int
+	OrderID        int
 	Customer       CustomerInput
 	Order          OrderInput
 	DocumentNumber string
@@ -23,6 +32,8 @@ type CheckoutPixInput struct {
 }
 
 type CheckoutBoletoInput struct {
+	CustomerID     int
+	OrderID        int
 	Customer       CustomerInput
 	Order          OrderInput
 	DocumentNumber string
@@ -47,6 +58,7 @@ type CheckoutBoletoResult struct {
 }
 
 type CheckoutService interface {
+	CreateCustomerAndOrder(ctx context.Context, inst *models.Installation, customer CustomerInput, order OrderInput) (CheckoutCreateOrderResult, error)
 	ProcessCreditCard(ctx context.Context, inst *models.Installation, input CheckoutCreditCardInput) (CheckoutCreditCardResult, error)
 	ProcessPix(ctx context.Context, inst *models.Installation, input CheckoutPixInput) (CheckoutPixResult, error)
 	ProcessBoleto(ctx context.Context, inst *models.Installation, input CheckoutBoletoInput) (CheckoutBoletoResult, error)
@@ -83,10 +95,22 @@ func NewCheckoutService(appmaxSvc AppmaxService, orderRepo contracts.OrderReposi
 	}, nil
 }
 
-func (s *checkoutService) ProcessCreditCard(ctx context.Context, inst *models.Installation, input CheckoutCreditCardInput) (CheckoutCreditCardResult, error) {
-	customerID, appmaxOrderID, err := s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "credit card")
+func (s *checkoutService) CreateCustomerAndOrder(ctx context.Context, inst *models.Installation, customer CustomerInput, order OrderInput) (CheckoutCreateOrderResult, error) {
+	customerID, orderID, err := s.createCustomerAndOrder(ctx, inst, customer, order, "create order")
 	if err != nil {
-		return CheckoutCreditCardResult{}, err
+		return CheckoutCreateOrderResult{}, err
+	}
+	return CheckoutCreateOrderResult{CustomerID: customerID, OrderID: orderID}, nil
+}
+
+func (s *checkoutService) ProcessCreditCard(ctx context.Context, inst *models.Installation, input CheckoutCreditCardInput) (CheckoutCreditCardResult, error) {
+	customerID, appmaxOrderID := input.CustomerID, input.OrderID
+	if appmaxOrderID == 0 {
+		var err error
+		customerID, appmaxOrderID, err = s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "credit card")
+		if err != nil {
+			return CheckoutCreditCardResult{}, err
+		}
 	}
 
 	input.Payment.OrderID = appmaxOrderID
@@ -121,9 +145,13 @@ func (s *checkoutService) ProcessCreditCard(ctx context.Context, inst *models.In
 }
 
 func (s *checkoutService) ProcessPix(ctx context.Context, inst *models.Installation, input CheckoutPixInput) (CheckoutPixResult, error) {
-	customerID, appmaxOrderID, err := s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "pix")
-	if err != nil {
-		return CheckoutPixResult{}, err
+	customerID, appmaxOrderID := input.CustomerID, input.OrderID
+	if appmaxOrderID == 0 {
+		var err error
+		customerID, appmaxOrderID, err = s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "pix")
+		if err != nil {
+			return CheckoutPixResult{}, err
+		}
 	}
 
 	pixResult, pixErr := s.appmaxSvc.Pix(ctx, inst, PixInput{
@@ -160,9 +188,13 @@ func (s *checkoutService) ProcessPix(ctx context.Context, inst *models.Installat
 }
 
 func (s *checkoutService) ProcessBoleto(ctx context.Context, inst *models.Installation, input CheckoutBoletoInput) (CheckoutBoletoResult, error) {
-	customerID, appmaxOrderID, err := s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "boleto")
-	if err != nil {
-		return CheckoutBoletoResult{}, err
+	customerID, appmaxOrderID := input.CustomerID, input.OrderID
+	if appmaxOrderID == 0 {
+		var err error
+		customerID, appmaxOrderID, err = s.createCustomerAndOrder(ctx, inst, input.Customer, input.Order, "boleto")
+		if err != nil {
+			return CheckoutBoletoResult{}, err
+		}
 	}
 
 	boletoResult, boletoErr := s.appmaxSvc.Boleto(ctx, inst, BoletoInput{

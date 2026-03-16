@@ -86,6 +86,9 @@ func (noopCheckoutService) Tokenize(context.Context, *models.Installation, servi
 func (noopCheckoutService) AddTracking(context.Context, *models.Installation, services.TrackingInput) error {
 	return nil
 }
+func (noopCheckoutService) CreateCustomerAndOrder(context.Context, *models.Installation, services.CustomerInput, services.OrderInput) (services.CheckoutCreateOrderResult, error) {
+	return services.CheckoutCreateOrderResult{}, nil
+}
 func (noopCheckoutService) ProcessUpsell(context.Context, *models.Installation, services.UpsellInput) (services.UpsellResult, error) {
 	return services.UpsellResult{}, nil
 }

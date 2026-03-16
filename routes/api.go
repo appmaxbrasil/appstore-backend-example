@@ -24,6 +24,7 @@ func Api() {
 	facades.Route().Post("/webhooks/appmax", deps.WebhookController.Handle)
 
 	facades.Route().Prefix("/checkout/{key}").Middleware(middleware.MerchantContext(deps.InstallationRepository)).Group(func(r route.Router) {
+		r.Post("/order", deps.CheckoutController.CreateOrder)
 		r.Get("/status/{order_id}", deps.CheckoutController.Status)
 		r.Get("/installments", deps.CheckoutController.Installments)
 		r.Post("/pay/credit-card", deps.CheckoutController.PayCreditCard)

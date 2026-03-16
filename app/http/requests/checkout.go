@@ -48,7 +48,14 @@ type CheckoutCreditCardPayment struct {
 	SoftDescriptor       string `json:"soft_descriptor"`
 }
 
+type CheckoutCreateOrderRequest struct {
+	Customer Customer `json:"customer"`
+	Order    Order    `json:"order"`
+}
+
 type CheckoutCreditCardRequest struct {
+	CustomerID   *int                      `json:"customer_id,omitempty"`
+	OrderID      *int                      `json:"order_id,omitempty"`
 	Customer     Customer                  `json:"customer"`
 	Order        Order                     `json:"order"`
 	Payment      CheckoutCreditCardPayment `json:"payment"`
@@ -56,6 +63,8 @@ type CheckoutCreditCardRequest struct {
 }
 
 type CheckoutPixRequest struct {
+	CustomerID     *int                  `json:"customer_id,omitempty"`
+	OrderID        *int                  `json:"order_id,omitempty"`
 	Customer       Customer              `json:"customer"`
 	Order          Order                 `json:"order"`
 	DocumentNumber string                `json:"document_number"`
@@ -63,6 +72,8 @@ type CheckoutPixRequest struct {
 }
 
 type CheckoutBoletoRequest struct {
+	CustomerID     *int     `json:"customer_id,omitempty"`
+	OrderID        *int     `json:"order_id,omitempty"`
 	Customer       Customer `json:"customer"`
 	Order          Order    `json:"order"`
 	DocumentNumber string   `json:"document_number"`

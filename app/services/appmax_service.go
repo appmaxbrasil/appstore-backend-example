@@ -309,6 +309,9 @@ func (s *appmaxService) CreditCard(ctx context.Context, inst *models.Installatio
 			}
 			return callErr
 		}
+		if resp.Data.Payment.PayReference == "" {
+			return ErrPaymentDeclined
+		}
 		result = CreditCardResult{
 			PaymentID:  0,
 			Status:     "aprovado",
@@ -336,6 +339,9 @@ func (s *appmaxService) Pix(ctx context.Context, inst *models.Installation, inpu
 		resp, callErr := s.gateway.Pix(ctx, merchantToken, req)
 		if callErr != nil {
 			return callErr
+		}
+		if resp.Data.Payment.QRCode == "" {
+			return fmt.Errorf("pix payment: empty response from Appmax (order may already have a pending payment)")
 		}
 		result = PixResult{
 			QRCode: resp.Data.Payment.QRCode,

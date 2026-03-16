@@ -1,5 +1,7 @@
 package contracts
 
+import "encoding/json"
+
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -66,12 +68,22 @@ type CreateCustomerRequest struct {
 	Tracking       *Tracking `json:"tracking,omitempty"`
 }
 
+type createCustomerDataPayload struct {
+	Customer struct {
+		ID int `json:"id"`
+	} `json:"customer"`
+}
+
+func (d *createCustomerDataPayload) UnmarshalJSON(b []byte) error {
+	if len(b) > 0 && b[0] == '[' {
+		return nil
+	}
+	type alias createCustomerDataPayload
+	return json.Unmarshal(b, (*alias)(d))
+}
+
 type CreateCustomerResponse struct {
-	Data struct {
-		Customer struct {
-			ID int `json:"id"`
-		} `json:"customer"`
-	} `json:"data"`
+	Data createCustomerDataPayload `json:"data"`
 }
 
 type CreateOrderRequest struct {
@@ -82,13 +94,23 @@ type CreateOrderRequest struct {
 	Products      []Product `json:"products"`
 }
 
+type createOrderDataPayload struct {
+	Order struct {
+		ID     int    `json:"id"`
+		Status string `json:"status"`
+	} `json:"order"`
+}
+
+func (d *createOrderDataPayload) UnmarshalJSON(b []byte) error {
+	if len(b) > 0 && b[0] == '[' {
+		return nil
+	}
+	type alias createOrderDataPayload
+	return json.Unmarshal(b, (*alias)(d))
+}
+
 type CreateOrderResponse struct {
-	Data struct {
-		Order struct {
-			ID     int    `json:"id"`
-			Status string `json:"status"`
-		} `json:"order"`
-	} `json:"data"`
+	Data createOrderDataPayload `json:"data"`
 }
 
 type GetOrderResponse struct {
@@ -152,13 +174,23 @@ type CreditCardRequest struct {
 	} `json:"payment_data"`
 }
 
+type creditCardDataPayload struct {
+	Payment struct {
+		PayReference string `json:"pay_reference"`
+		UpsellHash   string `json:"upsell_hash,omitempty"`
+	} `json:"payment"`
+}
+
+func (d *creditCardDataPayload) UnmarshalJSON(b []byte) error {
+	if len(b) > 0 && b[0] == '[' {
+		return nil
+	}
+	type alias creditCardDataPayload
+	return json.Unmarshal(b, (*alias)(d))
+}
+
 type CreditCardResponse struct {
-	Data struct {
-		Payment struct {
-			PayReference string `json:"pay_reference"`
-			UpsellHash   string `json:"upsell_hash,omitempty"`
-		} `json:"payment"`
-	} `json:"data"`
+	Data creditCardDataPayload `json:"data"`
 }
 
 type PixRequest struct {
@@ -171,13 +203,23 @@ type PixRequest struct {
 	} `json:"payment_data"`
 }
 
+type pixDataPayload struct {
+	Payment struct {
+		QRCode string `json:"pix_qrcode"`
+		EMV    string `json:"pix_emv"`
+	} `json:"payment"`
+}
+
+func (d *pixDataPayload) UnmarshalJSON(b []byte) error {
+	if len(b) > 0 && b[0] == '[' {
+		return nil
+	}
+	type alias pixDataPayload
+	return json.Unmarshal(b, (*alias)(d))
+}
+
 type PixResponse struct {
-	Data struct {
-		Payment struct {
-			QRCode string `json:"pix_qrcode"`
-			EMV    string `json:"pix_emv"`
-		} `json:"payment"`
-	} `json:"data"`
+	Data pixDataPayload `json:"data"`
 }
 
 type BoletoRequest struct {

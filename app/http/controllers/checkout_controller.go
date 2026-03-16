@@ -32,6 +32,29 @@ func installationFromCtx(ctx http.Context) (*models.Installation, bool) {
 	return inst, ok && inst != nil
 }
 
+func (c *CheckoutController) CreateOrder(ctx http.Context) http.Response {
+	inst, ok := installationFromCtx(ctx)
+	if !ok {
+		return ctx.Response().Json(500, responses.MessageResponse{Message: "installation context missing"})
+	}
+
+	var body requests.CheckoutCreateOrderRequest
+	if err := ctx.Request().Bind(&body); err != nil {
+		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid request body"})
+	}
+
+	result, err := c.checkoutSvc.CreateCustomerAndOrder(ctx.Context(), inst, toCustomerInput(body.Customer), toOrderInput(body.Order))
+	if err != nil {
+		facades.Log().Errorf("checkout_controller: create order failed: %v", err)
+		return ctx.Response().Json(502, responses.MessageResponse{Message: "order creation failed"})
+	}
+
+	return ctx.Response().Json(200, responses.CheckoutCreateOrderResponse{
+		CustomerID: result.CustomerID,
+		OrderID:    result.OrderID,
+	})
+}
+
 func (c *CheckoutController) PayCreditCard(ctx http.Context) http.Response {
 	inst, ok := installationFromCtx(ctx)
 	if !ok {
@@ -44,8 +67,10 @@ func (c *CheckoutController) PayCreditCard(ctx http.Context) http.Response {
 	}
 
 	input := services.CheckoutCreditCardInput{
-		Customer: toCustomerInput(body.Customer),
-		Order:    toOrderInput(body.Order),
+		CustomerID: derefInt(body.CustomerID),
+		OrderID:    derefInt(body.OrderID),
+		Customer:   toCustomerInput(body.Customer),
+		Order:      toOrderInput(body.Order),
 		Payment: services.CreditCardInput{
 			Token:                body.Payment.Token,
 			UpsellHash:           body.Payment.UpsellHash,
@@ -89,6 +114,8 @@ func (c *CheckoutController) PayPix(ctx http.Context) http.Response {
 	}
 
 	input := services.CheckoutPixInput{
+		CustomerID:     derefInt(body.CustomerID),
+		OrderID:        derefInt(body.OrderID),
 		Customer:       toCustomerInput(body.Customer),
 		Order:          toOrderInput(body.Order),
 		DocumentNumber: body.DocumentNumber,
@@ -120,6 +147,8 @@ func (c *CheckoutController) PayBoleto(ctx http.Context) http.Response {
 	}
 
 	input := services.CheckoutBoletoInput{
+		CustomerID:     derefInt(body.CustomerID),
+		OrderID:        derefInt(body.OrderID),
 		Customer:       toCustomerInput(body.Customer),
 		Order:          toOrderInput(body.Order),
 		DocumentNumber: body.DocumentNumber,
@@ -355,6 +384,13 @@ func toCustomerInput(customer requests.Customer) services.CustomerInput {
 		IP:             customer.IP,
 		Address:        toServiceAddress(customer.Address),
 	}
+}
+
+func derefInt(p *int) int {
+	if p == nil {
+		return 0
+	}
+	return *p
 }
 
 func toOrderInput(order requests.Order) services.OrderInput {
