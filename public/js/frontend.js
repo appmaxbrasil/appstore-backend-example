@@ -13,10 +13,7 @@
       var data = new FormData(installForm);
       data.forEach(function(value, key) { startURL.searchParams.set(key, value); });
 
-      var newTab = window.open(startURL.toString(), '_blank', 'noopener,noreferrer');
-      if (!newTab) {
-        window.location.href = startURL.toString();
-      }
+      window.location.href = startURL.toString();
     });
   }
 

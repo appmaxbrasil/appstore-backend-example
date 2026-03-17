@@ -11,7 +11,7 @@
 <body class="frontend-body" data-page-kind="{{ .PageKind }}" data-active-route="{{ .ActiveRoute }}">
   <main class="frontend-card">
     <div class="frontend-brand">
-      <img class="frontend-logo" src="/public/images/appmax-logo.svg" alt="Appmax logo" />
+      <img class="frontend-logo" src="/public/images/appmax-logo.jpg" alt="Appmax logo" />
     </div>
     <span class="frontend-pill">{{ .Badge }}</span>
     <h1 class="frontend-title">{{ .Headline }} <span class="frontend-ok">online</span></h1>
@@ -30,7 +30,7 @@
       <section class="frontend-panel">
         <h2>Installation</h2>
         <p>{{ .Message }}</p>
-        <form class="install-form" method="GET" action="{{ .InstallFormAction }}" target="_blank">
+        <form class="install-form" method="GET" action="{{ .InstallFormAction }}">
           <input type="hidden" name="app_id" value="{{ .DefaultInstallAppID }}" />
           <input type="hidden" name="external_key" value="" />
           <button type="submit" class="frontend-btn">Install Appmax</button>
