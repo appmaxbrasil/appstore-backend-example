@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/facades"
@@ -36,6 +37,7 @@ func (c *WebhookController) Handle(ctx http.Context) http.Response {
 		// keep backward compatibility with payload variations while extracting order_id
 	}
 	orderID := data.OrderID.Ptr()
+	logIncomingWebhook(envelope, orderID)
 
 	payload := models.JSONMap{
 		"event":      envelope.Event,
@@ -58,4 +60,31 @@ func (c *WebhookController) Handle(ctx http.Context) http.Response {
 		return ctx.Response().Json(200, responses.MessageResponse{Message: "already processed"})
 	}
 	return ctx.Response().Json(200, responses.MessageResponse{Message: "ok"})
+}
+
+func logIncomingWebhook(envelope requests.WebhookEnvelopeRequest, orderID *int) {
+	orderIDValue := "null"
+	if orderID != nil {
+		orderIDValue = fmt.Sprintf("%d", *orderID)
+	}
+
+	raw, err := json.Marshal(envelope)
+	if err != nil {
+		facades.Log().Debugf(
+			"webhook_controller: received event=%s event_type=%s order_id=%s payload_unmarshalable=true payload_data=%s",
+			envelope.Event,
+			envelope.EventType,
+			orderIDValue,
+			strings.TrimSpace(string(envelope.Data)),
+		)
+		return
+	}
+
+	facades.Log().Debugf(
+		"webhook_controller: received event=%s event_type=%s order_id=%s payload=%s",
+		envelope.Event,
+		envelope.EventType,
+		orderIDValue,
+		string(raw),
+	)
 }
