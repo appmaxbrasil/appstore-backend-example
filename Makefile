@@ -8,9 +8,9 @@ HEALTH_URL  = $(BASE_URL)/health
 
 COMPOSE = docker compose -f docker-compose.yml
 
-.PHONY: install teardown env-init generate-key up down restart logs health validate rename-module migrate
+.PHONY: install teardown env-init generate-key up down restart logs health validate rename-module test migrate
 
-install: env-init generate-key teardown up migrate validate
+install: env-init generate-key teardown up migrate test validate
 	@echo "Stack is ready."
 
 env-init:
@@ -101,18 +101,32 @@ validate: health
 	if [ "$$health_status" -eq 000 ]; then \
 		echo "  [FAIL] Health URL not reachable: $$active_url/health"; exit 1; \
 	fi; \
+	install_status=$$(curl -o /dev/null -sw '%{http_code}' $$active_url/install/start -H 'Accept: text/html' 2>/dev/null); \
+	if [ "$$install_status" -eq 000 ]; then \
+		echo "  [FAIL] Install URL not reachable: $$active_url/install/start"; exit 1; \
+	fi; \
 	callback_status=$$(curl -o /dev/null -sw '%{http_code}' $$active_url/integrations/appmax/callback/install 2>/dev/null); \
 	if [ "$$callback_status" -eq 000 ]; then \
 		echo "  [FAIL] Callback URL not reachable: $$active_url/integrations/appmax/callback/install"; exit 1; \
 	fi; \
+	webhook_status=$$(curl -o /dev/null -sw '%{http_code}' $$active_url/webhooks/appmax -H 'Accept: text/html' 2>/dev/null); \
+	if [ "$$webhook_status" -eq 000 ]; then \
+		echo "  [FAIL] Webhook URL not reachable: $$active_url/webhooks/appmax"; exit 1; \
+	fi; \
 	if [ "$$configured_reachable" -ne 0 ] && [ -n "$$ngrok_url" ] && [ "$$active_url" = "$$ngrok_url" ]; then :; fi; \
 	echo "  Frontend URL: $$active_url/"; \
 	echo "  Health URL: $$active_url/health"; \
-	echo "  Callback URL: $$active_url/integrations/appmax/callback/install"
+	echo "  Install URL: $$active_url/install/start"; \
+	echo "  Callback URL: $$active_url/integrations/appmax/callback/install"; \
+	echo "  Webhook URL: $$active_url/webhooks/appmax"
 	@echo "All validations passed."
 
 rename-module:
 	@bash scripts/rename-module.sh $(NEW)
+
+test:
+	@echo "Running tests inside app container..."
+	$(COMPOSE) exec -T app sh -lc 'PATH=/usr/local/go/bin:/go/bin:$$PATH GOCACHE=/tmp/.gocache go test ./...'
 
 migrate:
 	$(COMPOSE) exec app ./tmp/server artisan migrate
