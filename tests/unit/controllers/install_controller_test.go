@@ -319,7 +319,7 @@ func TestInstallController_Callback_HappyPath(t *testing.T) {
 		bindResult: requests.InstallCallbackRequest{
 			AppID:                testAppNumeric,
 			ExternalKey:          "some-key",
-			ClientKey:            testAppUUID,
+			ClientKey:            "some-key",
 			MerchantClientID:     "mc-id",
 			MerchantClientSecret: "mc-secret",
 		},
@@ -363,7 +363,7 @@ func TestInstallController_Callback_WrongAppID(t *testing.T) {
 		bindResult: requests.InstallCallbackRequest{
 			AppID:                "wrong-app-id",
 			ExternalKey:          "some-key",
-			ClientKey:            testAppUUID,
+			ClientKey:            "some-key",
 			MerchantClientID:     "mc-id",
 			MerchantClientSecret: "mc-secret",
 		},
@@ -391,7 +391,7 @@ func TestInstallController_Callback_UpsertFails(t *testing.T) {
 		bindResult: requests.InstallCallbackRequest{
 			AppID:                testAppNumeric,
 			ExternalKey:          "some-key",
-			ClientKey:            testAppUUID,
+			ClientKey:            "some-key",
 			MerchantClientID:     "mc-id",
 			MerchantClientSecret: "mc-secret",
 		},

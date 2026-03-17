@@ -213,7 +213,7 @@ func (c *InstallController) Callback(ctx http.Context) http.Response {
 		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid app_id"})
 	}
 
-	if body.ClientKey != c.appIDUUID {
+	if body.ClientKey != body.ExternalKey {
 		facades.Log().Errorf("install_controller: client_key mismatch for key %s: got %s", body.ExternalKey, body.ClientKey)
 		return ctx.Response().Json(400, responses.MessageResponse{Message: "invalid client_key"})
 	}
