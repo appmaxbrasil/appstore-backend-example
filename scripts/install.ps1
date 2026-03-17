@@ -45,7 +45,7 @@ $HealthUrl  = "$BaseUrl/health"
 $ComposeFiles = @("-f", "docker-compose.yml")
 
 function Wait-ForHealth {
-    for ($i = 1; $i -le 30; $i++) {
+    for ($i = 1; $i -le 60; $i++) {
         try {
             $r = Invoke-WebRequest -Uri $HealthUrl -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop
             if ($r.StatusCode -eq 200) {
@@ -159,7 +159,7 @@ Write-Host "==> Running tests inside app container..."
 if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
 
 if (-not (Wait-ForHealth)) {
-    Write-Host "Healthcheck failed after 30 attempts."
+    Write-Host "Healthcheck failed after 60 attempts."
     Pop-Location
     exit 1
 }
