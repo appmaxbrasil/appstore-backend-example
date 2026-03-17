@@ -10,6 +10,9 @@
 </head>
 <body class="frontend-body" data-page-kind="{{ .PageKind }}" data-active-route="{{ .ActiveRoute }}">
   <main class="frontend-card">
+    <div class="frontend-brand">
+      <img class="frontend-logo" src="/public/images/appmax-logo.svg" alt="Appmax logo" />
+    </div>
     <span class="frontend-pill">{{ .Badge }}</span>
     <h1 class="frontend-title">{{ .Headline }} <span class="frontend-ok">online</span></h1>
     <p class="frontend-message">{{ .Message }}</p>
@@ -36,7 +39,7 @@
             external_key
             <input type="text" name="external_key" value="{{ .DefaultExternalKey }}" required />
           </label>
-          <button type="submit" class="frontend-btn">Install on Breaking Code</button>
+          <button type="submit" class="frontend-btn">Install Appmax</button>
         </form>
       </section>
     {{ end }}

@@ -46,7 +46,7 @@ func (c *HealthController) RootFrontend(ctx contractshttp.Context) contractshttp
 		PageKind:    "root",
 		Endpoints:   frontendEndpoints(baseURL, routeRoot),
 		Buttons: []frontendAction{
-			{Label: "Start install", URL: routeInstallStart},
+			{Label: "Install Appmax", URL: routeInstallStart},
 			{Label: "Configure webhook", URL: routeWebhook, Secondary: true},
 		},
 		Tips: []string{

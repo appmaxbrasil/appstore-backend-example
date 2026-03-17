@@ -42,6 +42,18 @@ body.frontend-body {
   width: min(640px, 92vw);
 }
 
+.frontend-brand {
+  margin-bottom: 10px;
+}
+
+.frontend-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  display: block;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
 .frontend-pill {
   display: inline-block;
   font-size: 12px;
@@ -233,6 +245,12 @@ code {
 @media (max-width: 700px) {
   .frontend-card {
     padding: 20px 16px;
+  }
+
+  .frontend-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
   }
 
   .copy-row {
