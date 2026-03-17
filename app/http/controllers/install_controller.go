@@ -125,6 +125,15 @@ func (c *InstallController) CallbackGuide(ctx http.Context) http.Response {
 
 	clientID, clientSecret, err := c.appmaxSvc.GenerateMerchantCreds(appmaxCtx, token)
 	if err != nil {
+		facades.Log().Warningf("install_controller: generate merchant creds failed for token %s: %v — checking for existing installation", token, err)
+		existing, findErr := c.installSvc.Find(ctx.Context(), state.ExternalKey)
+		if findErr == nil && existing != nil && existing.MerchantClientID != "" {
+			facades.Log().Infof("install_controller: installation already exists for key %s (created by POST callback)", state.ExternalKey)
+			if wantsHTML {
+				return c.InstallCompletedFrontend(ctx)
+			}
+			return ctx.Response().Json(200, responses.InstallCallbackResponse{ExternalID: existing.ExternalID})
+		}
 		facades.Log().Errorf("install_controller: generate merchant creds failed for token %s: %v", token, err)
 		return ctx.Response().Json(UpstreamErrorStatus(err, 502), responses.MessageResponse{Message: UpstreamErrorMessage(err, "failed to generate merchant credentials")})
 	}
