@@ -497,17 +497,21 @@ This is invaluable for debugging what Appmax is sending to your app and what you
 
 ## Common Commands
 
-| Command | Description |
-|---------|-------------|
-| `make install` | Full setup: build, migrate, test, validate endpoints |
-| `make up` | Build and start all containers |
-| `make down` | Stop and remove all containers + volumes |
-| `make restart` | Restart all containers |
-| `make logs` | Follow logs from all containers in real time |
-| `make test` | Run the full test suite inside the app container |
-| `make migrate` | Run database migrations inside the app container |
-| `make validate` | Wait for health check, then verify all endpoints via ngrok |
-| `make health` | Wait for the app to pass its health check (up to 3 minutes) |
+Most `docker compose` commands work natively in PowerShell without any extra tooling.
+
+| Action | Unix/macOS | Windows (PowerShell) |
+|--------|-----------|----------------------|
+| Full install | `make install` | `.\scripts\install.ps1` |
+| Start containers | `make up` | `docker compose up -d --build` |
+| Stop containers | `make down` | `docker compose down -v --remove-orphans` |
+| Restart containers | `make restart` | `docker compose restart` |
+| Follow logs | `make logs` | `docker compose logs -f` |
+| Run tests | `make test` | `docker compose exec -T app sh -lc 'PATH=/usr/local/go/bin:/go/bin:$PATH GOCACHE=/tmp/.gocache go test ./...'` |
+| Run migrations | `make migrate` | `docker compose exec -T app ./tmp/server artisan migrate` |
+| Wait for health check | `make health` | `Invoke-WebRequest -Uri http://localhost:8080/health -UseBasicParsing` |
+| Verify endpoints via ngrok | `make validate` | _(included in `.\scripts\install.ps1`)_ |
+| Remove all containers + volumes | `make teardown` | `docker compose down -v --remove-orphans` |
+| Rename Go module path | `make rename-module NEW=<path>` | `.\scripts\rename-module.ps1 -NewPath <path>` |
 
 ---
 
