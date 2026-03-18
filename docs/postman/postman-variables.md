@@ -1,0 +1,78 @@
+# Postman Collection Variables
+
+This document describes all 36 variables in the **AppMax — Full Integration Suite** collection, grouped by who is responsible for them.
+
+---
+
+## 1. Você deve preencher manualmente
+
+These variables are environment-specific and must be set before running any requests.
+
+| Variable | Mapped from `.env` | Notes |
+| --- | --- | --- |
+| `NGROK_URL` | `NGROK_URL` | Changes every ngrok session. Update whenever you restart ngrok. |
+| `BASE_URL` | `APP_HOST` + `APP_PORT` | Default `http://localhost:8080` — change only if the server runs on a different port. |
+| `APPMAX_CLIENT_ID` | `APPMAX_CLIENT_ID` | Provided by Appmax when the app is registered. |
+| `APPMAX_CLIENT_SECRET` | `APPMAX_CLIENT_SECRET` | Provided by Appmax when the app is registered. |
+| `APPMAX_APP_ID_UUID` | `APPMAX_APP_ID_UUID` | App UUID assigned by Appmax. |
+| `APP_ID_NUMERIC` | `APPMAX_APP_ID_NUMERIC` | App numeric ID assigned by Appmax. |
+
+---
+
+## 2. Pré-configurado pelo Postman — não remover
+
+These variables are hardcoded with stable sandbox infrastructure URLs and shared defaults. Do not delete or modify them unless the sandbox environment changes.
+
+| Variable | Value | Purpose |
+| --- | --- | --- |
+| `AUTH_URL` | `https://auth.sandboxappmax.com.br` | Appmax Keycloak — app OAuth2 token endpoint |
+| `API_URL` | `https://api.sandboxappmax.com.br` | Appmax REST API base |
+| `REDIRECT_BASE` | `https://breakingcode.sandboxappmax.com.br` | Merchant browser redirect base |
+| `CUSTOMER_ID` | `6933` | Default customer for the Appmax direct flow — overwritten by Create Customer requests. |
+| `AUTO_SYNC_MERCHANT_TOKEN` | `true` | Controls whether `MERCHANT_TOKEN` is refreshed automatically before each request that uses it. Set to `false` to disable. |
+
+---
+
+## 3. Gerado automaticamente pelos scripts
+
+These variables are populated by pre-request and test scripts during request execution. Do not set them manually — they will be overwritten.
+
+### 3a. Instalação e autenticação
+
+Set once at the beginning of each flow run.
+
+| Variable | Set by | When |
+| --- | --- | --- |
+| `EXTERNAL_KEY` | Appmax Step 1 / Localhost Step 1 (pre-request) | Random key generated at flow start (`postman-<timestamp>` or `local-install-<timestamp>`) |
+| `INSTALLATION_KEY` | Appmax Step 1 / Localhost Step 1 (pre-request) | Same value as `EXTERNAL_KEY` — used to identify the installation in localhost endpoints |
+| `APP_TOKEN` | Appmax Step 1 (test) | Bearer token for the app, obtained via OAuth2 |
+| `HASH` | Appmax Step 2 / Localhost Step 1 (test) | Installation hash returned by Appmax — used to build the browser authorization URL |
+| `_BROWSER_URL` | Step 3 (pre-request) | Full browser URL for merchant authorization (internal helper, not used in requests) |
+| `MERCHANT_TOKEN` | Appmax Step 6 / Localhost Step 5 (test) + global auto-sync pre-request | Merchant bearer token, refreshed automatically before each request that uses `{{MERCHANT_TOKEN}}` |
+| `MERCHANT_CLIENT_ID` | Localhost Step 5 — Sync Merchant Token (test) | Pulled from the local DB via the sync endpoint |
+| `MERCHANT_CLIENT_SECRET` | Localhost Step 5 — Sync Merchant Token (test) | Pulled from the local DB via the sync endpoint |
+
+### 3b. Fluxos de pagamento e pedidos
+
+Set progressively as you run through the payment flows.
+
+| Variable | Set by |
+| --- | --- |
+| `CUSTOMER_ID` | Create Customer requests |
+| `ORDER_ID` | Create Order requests |
+| `CARD_TOKEN` | Tokenize Card requests |
+| `TOKEN` | Checkout tokenize steps |
+| `APPROVED_ORDER_ID` | Approved payment flow |
+| `APPROVED_ORDER_ID_2` | Second approved order (split flows) |
+| `ORDER_ID_DECLINED` | Declined payment flow |
+| `ORDER_ID_PIX` | PIX payment flow |
+| `PIX_ORDER_ID` | PIX order creation |
+| `ORDER_ID_BOLETO` | Boleto payment flow |
+| `BOLETO_ORDER_ID` | Boleto order creation |
+| `ORDER_ID_PARTIAL` | Partial payment flow |
+| `ORDER_ID_SUB_CC` | Subscription credit card flow |
+| `ORDER_ID_SUB_PIX` | Subscription PIX flow |
+| `UPSELL_ORDER_ID` | Upsell order |
+| `UPSELL_HASH` | Upsell request |
+| `RECIPIENT_HASH` | Recipient management flow |
+| `ABANDONED_CUSTOMER_ID` | Abandoned cart flow |
