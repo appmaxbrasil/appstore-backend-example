@@ -455,6 +455,7 @@ after initial creation.
 | 400 `"invalid app_id"`                 | `APPMAX_APP_ID_NUMERIC` env var doesn't match  | Check The credentials provided by Appmax for the numeric app ID          |
 | 400 `"invalid client_key"`             | `client_key` != `external_key` in Appmax POST  | Usually an Appmax-side config issue; contact support    |
 | Health check POST never arrives        | Callback URL not reachable from Appmax servers | Ensure `NGROK_URL` or `APP_URL` is publicly accessible |
+| Step 5 Postman test fails "NGROK_URL is set" | `NGROK_URL` collection variable is empty | Set `NGROK_URL` in the Postman collection variables to your ngrok tunnel URL (e.g., `https://foo.ngrok-free.app`) — see [Postman Variables](../postman/postman-variables.md) |
 | 504 on `POST /app/client/generate`     | Keycloak timeout (common in sandbox)           | Retry; Path B (POST) may have already succeeded         |
 | Installation created but creds empty   | Health check POST failed; Path A also failed   | Check app logs for callback errors                      |
 | 400 `"token is required"` on GET       | Browser redirect arrived without `?token=` param | Appmax redirect URL misconfigured                     |
@@ -703,7 +704,7 @@ values pre-filled.
 | `APPMAX_APP_ID_UUID`    | Yes      | -                                | App UUID from The credentials provided by Appmax                    |
 | `APPMAX_APP_ID_NUMERIC` | Yes      | -                                | App numeric ID from The credentials provided by Appmax              |
 | `APP_URL`               | Yes*     | -                                | Public URL of the app (fallback if no NGROK_URL)  |
-| `NGROK_URL`             | No       | -                                | Ngrok tunnel URL (takes precedence over APP_URL)  |
+| `NGROK_URL`             | No       | -                                | Ngrok tunnel URL (takes precedence over `APP_URL`). Trailing slashes are trimmed at startup. See `bootstrap/appmax_config.go`. |
 | `APPMAX_AUTH_URL`       | No       | `https://auth.appmax.com.br`    | OAuth2 endpoint base URL                          |
 | `APPMAX_API_URL`        | No       | `https://api.appmax.com.br`     | REST API base URL                                 |
 | `APPMAX_ADMIN_URL`      | No       | `https://admin.appmax.com.br`   | Admin panel base URL (for install redirects)      |

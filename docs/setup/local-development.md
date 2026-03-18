@@ -179,6 +179,7 @@ Common causes:
 - Verify `NGROK_AUTHTOKEN` is set in `.env`
 - Check ngrok inspector: `http://localhost:4040`
 - If using a reserved domain (`NGROK_URL`), verify it matches your ngrok account
+- If running the **Appmax Endpoints flow** in Postman, ensure the `NGROK_URL` collection variable is set to your tunnel URL — see [Postman Variables](../postman/postman-variables.md)
 
 ### Database connection refused
 
