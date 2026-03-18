@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"fmt"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/controllers"
 )
 
 type ControllerModule struct {

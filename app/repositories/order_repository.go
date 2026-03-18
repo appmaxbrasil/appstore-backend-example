@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
+	"github.com/appmaxbrasil/appstore-backend-example/app/models"
+	"github.com/appmaxbrasil/appstore-backend-example/app/repositories/contracts"
 )
 
 type orderRepository struct {

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	_ "github.com/geovannegallinati/AppStore-Appmax-App-Integration/config"
+	_ "github.com/appmaxbrasil/appstore-backend-example/config"
 	contractsfoundation "github.com/goravel/framework/contracts/foundation"
 	"github.com/goravel/framework/facades"
 	"github.com/goravel/framework/foundation"

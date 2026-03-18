@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	appmax "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax"
+	appmax "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax"
 	"github.com/stretchr/testify/require"
 )
 

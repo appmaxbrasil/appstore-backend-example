@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	gatewayappmax "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax"
-	gatewaycontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax/contracts"
+	gatewayappmax "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax"
+	gatewaycontracts "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax/contracts"
 )
 
 type GatewayModule struct {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/controllers"
+	"github.com/appmaxbrasil/appstore-backend-example/app/models"
+	"github.com/appmaxbrasil/appstore-backend-example/app/services"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
