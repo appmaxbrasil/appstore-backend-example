@@ -266,6 +266,14 @@
                   "script": {
                     "type": "text/javascript",
                     "exec": [
+                      "// Validate NGROK_URL is configured",
+                      "const ngrokUrl = pm.collectionVariables.get('NGROK_URL') || '';",
+                      "pm.test('NGROK_URL is set', () => {",
+                      "  pm.expect(ngrokUrl).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('NGROK_URL has https scheme', () => {",
+                      "  pm.expect(ngrokUrl).to.match(/^https:\\/\\//);",
+                      "});",
                       "pm.test('Status 200', () => pm.response.to.have.status(200));",
                       "const json = pm.response.json();",
                       "pm.test('Has external_id', () => pm.expect(json.external_id).to.be.a('string').and.not.empty);",
@@ -8778,7 +8786,13 @@
         "packages": {},
         "requests": {},
         "exec": [
-          ""
+          "// Normalize NGROK_URL: strip trailing slash, add https:// if missing",
+          "const u = (pm.collectionVariables.get('NGROK_URL') || '').trim().replace(/\\/+$/, '');",
+          "if (u && !u.startsWith('http://') && !u.startsWith('https://')) {",
+          "  pm.collectionVariables.set('NGROK_URL', 'https://' + u);",
+          "} else if (u) {",
+          "  pm.collectionVariables.set('NGROK_URL', u);",
+          "}"
         ]
       }
     },

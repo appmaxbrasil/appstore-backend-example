@@ -43,6 +43,8 @@ func LoadAppmaxConfigFromEnv() (AppmaxConfig, error) {
 	if strings.TrimSpace(appPublicURL) == "" {
 		appPublicURL = os.Getenv("APP_URL")
 	}
+	appPublicURL = strings.TrimSpace(appPublicURL)
+	appPublicURL = strings.TrimRight(appPublicURL, "/")
 
 	cfg := AppmaxConfig{
 		AuthURL:         authURL,
