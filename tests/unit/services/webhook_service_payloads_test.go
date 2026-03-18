@@ -181,8 +181,6 @@ func buildSubscriptionPayload(event string, customerID int) models.JSONMap {
 	}
 }
 
-// TestWebhookService_MappedEvents_UpdatesOrderStatus verifies that every event
-// in webhookStatusMap correctly updates the order to its expected status.
 func TestWebhookService_MappedEvents_UpdatesOrderStatus(t *testing.T) {
 	tests := []struct {
 		event       string
@@ -245,8 +243,6 @@ func TestWebhookService_MappedEvents_UpdatesOrderStatus(t *testing.T) {
 	}
 }
 
-// TestWebhookService_KnownNoOpEvents_MarkedProcessedWithoutOrderLookup verifies that
-// events in knownNoOpEvents are processed without touching the order repository.
 func TestWebhookService_KnownNoOpEvents_MarkedProcessedWithoutOrderLookup(t *testing.T) {
 	tests := []struct {
 		event   string
@@ -291,8 +287,6 @@ func TestWebhookService_KnownNoOpEvents_MarkedProcessedWithoutOrderLookup(t *tes
 	}
 }
 
-// TestWebhookService_PascalCaseMappedEvents_UpdatesOrderStatus verifies that every
-// PascalCase event in webhookStatusMap correctly updates the order to its expected status.
 func TestWebhookService_PascalCaseMappedEvents_UpdatesOrderStatus(t *testing.T) {
 	tests := []struct {
 		event       string
@@ -351,9 +345,6 @@ func TestWebhookService_PascalCaseMappedEvents_UpdatesOrderStatus(t *testing.T) 
 	}
 }
 
-// TestWebhookService_PascalCaseUnmappedEvents_MarkedProcessedWithoutStatusUpdate verifies
-// that PascalCase events not present in webhookStatusMap are persisted and marked
-// processed without updating order status.
 func TestWebhookService_PascalCaseUnmappedEvents_MarkedProcessedWithoutStatusUpdate(t *testing.T) {
 	tests := []struct {
 		event       string
@@ -402,9 +393,6 @@ func TestWebhookService_PascalCaseUnmappedEvents_MarkedProcessedWithoutStatusUpd
 	}
 }
 
-// TestWebhookService_PascalCaseCustomerNoOpEvents_MarkedProcessedWithoutOrderLookup verifies
-// that PascalCase customer and subscription events are handled as no-ops without touching
-// the order repository.
 func TestWebhookService_PascalCaseCustomerNoOpEvents_MarkedProcessedWithoutOrderLookup(t *testing.T) {
 	tests := []struct {
 		event   string
@@ -449,8 +437,6 @@ func TestWebhookService_PascalCaseCustomerNoOpEvents_MarkedProcessedWithoutOrder
 	}
 }
 
-// TestWebhookService_SubscriptionCancellationEvent_WithSubscriptionObject verifies
-// that the nested subscription object in the payload is persisted without errors.
 func TestWebhookService_SubscriptionCancellationEvent_WithSubscriptionObject(t *testing.T) {
 	markedProcessed := false
 
@@ -472,8 +458,6 @@ func TestWebhookService_SubscriptionCancellationEvent_WithSubscriptionObject(t *
 	assert.True(t, markedProcessed)
 }
 
-// TestWebhookService_SubscriptionDelayedEvent_WithSubscriptionObject verifies
-// that the nested subscription object in the payload is persisted without errors.
 func TestWebhookService_SubscriptionDelayedEvent_WithSubscriptionObject(t *testing.T) {
 	markedProcessed := false
 
@@ -495,9 +479,6 @@ func TestWebhookService_SubscriptionDelayedEvent_WithSubscriptionObject(t *testi
 	assert.True(t, markedProcessed)
 }
 
-// TestWebhookService_OrderPixCreated_PixPaymentLinkInPayload verifies that
-// the snake_case event (order_pix_created) sets the order status to "pendente"
-// and the pix_payment_link field from the real Appmax payload is stored correctly.
 func TestWebhookService_OrderPixCreated_PixPaymentLinkInPayload(t *testing.T) {
 	orderID := 1
 	savedStatus := ""
@@ -535,8 +516,6 @@ func TestWebhookService_OrderPixCreated_PixPaymentLinkInPayload(t *testing.T) {
 	assert.Equal(t, pixLink, payload["data"].(map[string]any)["pix_payment_link"])
 }
 
-// TestWebhookService_OrderPaidByPix_PixPaymentLinkInPayload verifies that
-// order_paid_by_pix sets status to "aprovado" and the pix_payment_link is present.
 func TestWebhookService_OrderPaidByPix_PixPaymentLinkInPayload(t *testing.T) {
 	orderID := 1
 	savedStatus := ""

@@ -74,7 +74,6 @@ func (c *WebhookController) Handle(ctx http.Context) http.Response {
 
 	var data requests.WebhookDataRequest
 	if err := json.Unmarshal(envelope.Data, &data); err != nil {
-		// keep backward compatibility with payload variations while extracting order_id
 	}
 	orderID := data.ExtractOrderID()
 	model := data.DetectModel(envelope.EventType)

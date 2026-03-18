@@ -20,6 +20,22 @@ and webhook processing for order status updates.
 
 ---
 
+## API Documentation
+
+| Resource | Link |
+|----------|------|
+| Postman Documentation and Collection | <a href="https://www.postman.com/geovannegallinati/appmax-full-integration-suite/documentation/52585908-1b3d2ef6-e083-456c-b4c1-fdc46a37f771?sideView=agentMode" target="_blank"><img src="https://run.pstmn.io/button.svg" alt="Run in Postman"></a> |
+| Collection JSON | [Appmax — Full Integration Suite.postman_collection.json](docs/postman/Appmax%20-%20Full%20Integration%20Suite.postman_collection.json) |
+
+The collection covers two top-level folders:
+
+- **Appmax Endpoints** — calls the Appmax sandbox APIs directly (OAuth token, installation authorization, customers, orders, payments, webhooks)
+- **Localhost Endpoints** — calls the backend server at `localhost:8080` (install flow, merchant token sync, checkout, webhook simulation)
+
+Before running requests, set the required variables in the collection. See [Postman Variables](docs/postman/postman-variables.md) for the full variable reference.
+
+---
+
 ## Prerequisites
 
 Before you begin, you need three things: Docker, a ngrok account, and Appmax credentials. Follow each step below.
@@ -147,6 +163,26 @@ From the Appmax AppStore dashboard, you need 4 values for your app:
 | `APPMAX_APP_ID_NUMERIC` | Integer | `42` |
 
 > **Important**: These are two different identifiers for the same app. The UUID is used in the OAuth authorize flow (`/app/authorize`). The numeric ID is used in the health check POST callback from Appmax. Both are required.
+
+Quick process summary:
+
+1. Open <https://appstore.appmax.com.br/>, click `Desenvolva seu aplicativo`, and register the account with the same CNPJ/company data from Receita Federal.
+2. Create the app (`Criar aplicativo`), choose `Aplicativo público` (listed for Appmax users) or `Aplicativo privado` (not publicly listed; only owner/invitees).
+3. Fill app data carefully:
+   - support email should match the company/CNPJ registration email
+   - define name, description, billing model (`Cobrança via Appmax` or `Cobrança via Plataforma Externa`), and fee/commission terms according to Appmax rules
+4. Upload app icon with Appmax UI requirements (`1200x1200`, PNG/JPG, square, no rounded corners).
+5. Configure permissions for required events and save.
+6. Go to `Meus aplicativos` > select the app > click `Desenvolver` and configure:
+   - `Host`: `https://<your-public-domain>/install/start`
+   - `URL do sistema`: `https://<your-public-domain>/`
+   - `URL de validação` (callback): `https://<your-public-domain>/integrations/appmax/callback/install`
+7. If `Desenvolver` does not appear, request enablement at `desenvolvedores@appmax.com.br` (app may still be under analysis).
+8. Callback URL is mandatory. Without it, installation does not complete.
+9. Appmax still needs to validate company/CNPJ/quadro societário and then sends sandbox credentials by email.
+
+Detailed guide: [How to Get Appmax Credentials and Configure Your App](docs/setup/how-to-get-appmax-credentials-and-configure-your-app.md)
+Official docs: <https://appmax.readme.io/> (for this project, prefer the docs in this repository for implementation details).
 
 ---
 
@@ -506,6 +542,7 @@ tests/
 
 ### Setup
 - [Local Development](docs/setup/local-development.md) -- Docker, Makefile, Air hot reload, ngrok, scripts
+- [How to Get Appmax Credentials and Configure Your App](docs/setup/how-to-get-appmax-credentials-and-configure-your-app.md) -- App Store registration, app creation, permissions, callback setup, credential approval flow
 - [Database](docs/setup/database.md) -- Migrations, schema, connection pooling, Redis
 
 ### Integration
