@@ -59,12 +59,6 @@ type WebhookDataRequest struct {
 	Meta               *json.RawMessage `json:"meta"`
 }
 
-// ExtractOrderID returns the order ID from the payload using model-aware logic:
-//   - Two-Level Flat / Custom Content / Old Legacy: uses data.order_id
-//   - Standard / Standard with Meta: uses data.id when data.customer_id is also
-//     present, confirming this is an order event (not a customer event where data.id
-//     is the customer ID)
-//   - Customer events and subscription client-structure events: returns nil
 func (d WebhookDataRequest) ExtractOrderID() *int {
 	if d.OrderID.Ptr() != nil {
 		return d.OrderID.Ptr()
@@ -75,8 +69,6 @@ func (d WebhookDataRequest) ExtractOrderID() *int {
 	return nil
 }
 
-// DetectModel identifies the Appmax webhook payload model from the parsed data
-// and the envelope event_type field.
 func (d WebhookDataRequest) DetectModel(eventType string) string {
 	if eventType == "order" {
 		return "old_legacy"

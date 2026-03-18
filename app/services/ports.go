@@ -5,14 +5,11 @@ import (
 	"time"
 )
 
-// Logger abstracts logging for application services.
-// Framework-specific logging should stay in adapters/bootstrap.
 type Logger interface {
 	Warningf(format string, args ...any)
 	Errorf(format string, args ...any)
 }
 
-// MerchantTokenCache abstracts cache operations used by token manager.
 type MerchantTokenCache interface {
 	GetString(ctx context.Context, key string) string
 	Put(ctx context.Context, key, value string, ttl time.Duration) error

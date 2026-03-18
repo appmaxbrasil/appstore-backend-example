@@ -139,35 +139,10 @@ all tunneled requests, replay them, and inspect headers/bodies.
 
 ## Scripts
 
-| Script | Platform | Purpose |
-|--------|----------|---------|
-| `scripts/install.ps1` | Windows (PowerShell) | Full setup equivalent of `make install` |
-| `scripts/test-install-flow.sh` | Unix | Interactive install flow test — walks through start → authorize → callback → health check with prompts |
-| `scripts/simulate-healthcheck.sh` | Unix | Simulates the Appmax health check POST with test data |
-| `scripts/rename-module.sh` | Unix | Renames the Go module path across all project files |
-
-### Testing the Install Flow
-
-```bash
-bash scripts/test-install-flow.sh
-```
-
-This script:
-1. Calls `GET /install/start` with your `APPMAX_APP_ID_UUID` and a generated `external_key`
-2. Captures the 302 redirect and extracts the hash
-3. Prints the Appmax admin URL for you to authorize in the browser
-4. Waits for you to complete authorization
-5. Shows app logs for the callback processing
-6. Simulates the health check POST
-
-### Simulating a Health Check
-
-```bash
-bash scripts/simulate-healthcheck.sh [client_id] [client_secret] [external_key]
-```
-
-All arguments are optional (defaults to test values). Useful for testing the POST
-callback endpoint in isolation.
+| Script                    | Platform             | Purpose                                             |
+|---------------------------|----------------------|-----------------------------------------------------|
+| `scripts/install.ps1`     | Windows (PowerShell) | Full setup equivalent of `make install`             |
+| `scripts/rename-module.sh`| Unix                 | Renames the Go module path across all project files |
 
 ---
 

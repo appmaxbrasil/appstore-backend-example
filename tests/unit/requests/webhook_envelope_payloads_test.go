@@ -10,8 +10,6 @@ import (
 	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/requests"
 )
 
-// TestWebhookEnvelope_AllRealEventNames_ParseWithoutError verifies that every
-// real event envelope received from Appmax can be unmarshaled into WebhookEnvelopeRequest.
 func TestWebhookEnvelope_AllRealEventNames_ParseWithoutError(t *testing.T) {
 	envelopes := []string{
 		`{"event":"CustomerCreated","event_type":"","data":{"id":1,"site_id":1470,"firstname":"Laura","lastname":"Montenegro","email":"maximo33@gmail.com","telephone":"3526001145","postcode":"97120572","address_street":"Avenida Santiago","address_street_number":"55","address_street_complement":"Bloco C","address_street_district":"qui","address_city":"Santa Daniel","address_state":"SP","document_number":"57135108914","created_at":"2026-03-17 09:19:46","visited_url":"","uf":"SP","fullname":"Laura Montenegro","interested_bundle":[]}}`,
@@ -53,8 +51,6 @@ func TestWebhookEnvelope_AllRealEventNames_ParseWithoutError(t *testing.T) {
 	}
 }
 
-// TestWebhookEnvelope_OrderApproved_EnvelopeFields verifies all top-level fields
-// of a real Appmax order event envelope.
 func TestWebhookEnvelope_OrderApproved_EnvelopeFields(t *testing.T) {
 	raw := `{"event":"OrderApproved","event_type":"","data":{"id":1,"customer_id":1,"total_products":265,"status":"aprovado","freight_value":2.48,"freight_type":"PAC","payment_type":"CreditCard","total":267.48,"full_payment_amount":"267.48","pix_payment_link":"","company_name":"DemoAppGeovanne","bundles":[],"products":[],"visit":[]}}`
 
@@ -67,8 +63,6 @@ func TestWebhookEnvelope_OrderApproved_EnvelopeFields(t *testing.T) {
 	assert.NotNil(t, env.Data)
 }
 
-// TestWebhookEnvelope_CustomerCreated_EnvelopeFields verifies all top-level fields
-// of a real Appmax customer event envelope.
 func TestWebhookEnvelope_CustomerCreated_EnvelopeFields(t *testing.T) {
 	raw := `{"event":"CustomerCreated","event_type":"","data":{"id":1,"site_id":1470,"firstname":"Laura","lastname":"Montenegro","email":"maximo33@gmail.com","telephone":"3526001145","postcode":"97120572","address_street":"Avenida Santiago","address_street_number":"55","address_street_complement":"Bloco C","address_street_district":"qui","address_city":"Santa Daniel","address_state":"SP","document_number":"57135108914","created_at":"2026-03-17 09:19:46","visited_url":"","uf":"SP","fullname":"Laura Montenegro","interested_bundle":[]}}`
 
@@ -81,8 +75,6 @@ func TestWebhookEnvelope_CustomerCreated_EnvelopeFields(t *testing.T) {
 	assert.NotNil(t, env.Data)
 }
 
-// TestWebhookEnvelope_LegacyOrderPaid_HasEventType verifies that the legacy
-// snake_case format includes a non-empty event_type field.
 func TestWebhookEnvelope_LegacyOrderPaid_HasEventType(t *testing.T) {
 	raw := `{"event":"order_paid","event_type":"order","data":{"order_id":12844,"foo":"bar"}}`
 
@@ -94,8 +86,6 @@ func TestWebhookEnvelope_LegacyOrderPaid_HasEventType(t *testing.T) {
 	assert.Equal(t, "order", env.EventType)
 }
 
-// TestWebhookEnvelope_SubscriptionEvent_NestedSubscriptionObjectParsed verifies
-// that the nested subscription object in the data field is preserved as raw JSON.
 func TestWebhookEnvelope_SubscriptionEvent_NestedSubscriptionObjectParsed(t *testing.T) {
 	raw := `{"event":"SubscriptionCancellationEvent","event_type":"","data":{"id":1,"site_id":1470,"firstname":"Noeli","lastname":"Guerra","email":"felipe22@galhardo.biz","telephone":"5191913915","postcode":"91642854","address_street":"Travessa Mendes","address_street_number":"39332","address_street_complement":"4 Andar","address_street_district":"voluptatum","address_city":"Noel do Norte","address_state":"SE","document_number":"75798407829","created_at":"2026-03-17 09:26:35","visited_url":"","uf":"SE","fullname":"Noeli Guerra","interested_bundle":[],"subscription":{"id":null,"installments":null,"total":null,"created_at":"2026-03-17 09:26:35","cancelled_at":null,"bundle":{"id":1,"name":"My product 1","description":"","production_cost":"R$ 0,00","identifier":null,"products":[{"id":1,"sku":"9000010","name":"Livro de receitas","description":"","price":"62.00","quantity":1,"image":"https://gateway-boleto-homolog-appmax.s3-sa-east-1.amazonaws.com/","external_id":null}]}}}}`
 
@@ -121,8 +111,6 @@ func TestWebhookEnvelope_SubscriptionEvent_NestedSubscriptionObjectParsed(t *tes
 	assert.Equal(t, "9000010", products[0].(map[string]any)["sku"])
 }
 
-// TestWebhookDataRequest_LegacyPayload_OrderIdExtracted verifies that the legacy
-// Appmax format using "order_id" field is correctly parsed.
 func TestWebhookDataRequest_LegacyPayload_OrderIdExtracted(t *testing.T) {
 	legacyPayload := `{"order_id":12844,"foo":"bar"}`
 
@@ -134,8 +122,6 @@ func TestWebhookDataRequest_LegacyPayload_OrderIdExtracted(t *testing.T) {
 	assert.Equal(t, 12844, *data.OrderID.Ptr())
 }
 
-// TestExtractOrderID_PixStandardPayload_ReturnsDataId verifies that Pix event payloads
-// in Standard model (data.id + data.customer_id) correctly extract the order ID from data.id.
 func TestExtractOrderID_PixStandardPayload_ReturnsDataId(t *testing.T) {
 	pixPayload := `{"id":1,"customer_id":1,"total_products":362,"status":"pendente","payment_type":"Pix","total":434.01,"pix_payment_link":"https://breakingcode.sandboxappmax.com.br/show-pix/1"}`
 
@@ -147,8 +133,6 @@ func TestExtractOrderID_PixStandardPayload_ReturnsDataId(t *testing.T) {
 	assert.Equal(t, 1, *orderID)
 }
 
-// TestExtractOrderID_BoletoStandardPayload_ReturnsDataId verifies that Boleto event payloads
-// in Standard model (data.id + data.customer_id) correctly extract the order ID from data.id.
 func TestExtractOrderID_BoletoStandardPayload_ReturnsDataId(t *testing.T) {
 	boletoPayload := `{"id":1,"customer_id":1,"total_products":177,"status":"pendente","payment_type":"Boleto","total":307.15,"billet_date_overdue":"","billet_url":null,"billet_digitable_line":null}`
 

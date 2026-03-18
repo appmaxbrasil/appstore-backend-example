@@ -10,7 +10,6 @@ import (
 )
 
 var webhookStatusMap = map[string]string{
-	// snake_case (Old Legacy model)
 	"order_authorized":              "autorizado",
 	"order_authorized_with_delay":   "autorizado",
 	"order_approved":                "aprovado",
@@ -28,7 +27,6 @@ var webhookStatusMap = map[string]string{
 	"payment_not_authorized":        "cancelado",
 	"payment_authorized_with_delay": "autorizado",
 	"split_orders":                  "aprovado",
-	// PascalCase (Standard, Standard with Meta, Two-Level Flat, Custom Content models)
 	"OrderAuthorized":            "autorizado",
 	"OrderApproved":              "aprovado",
 	"OrderBilletCreated":         "pendente",
@@ -46,13 +44,11 @@ var webhookStatusMap = map[string]string{
 }
 
 var knownNoOpEvents = map[string]bool{
-	// snake_case (Old Legacy model)
 	"customer_created":         true,
 	"customer_interested":      true,
 	"customer_contacted":       true,
 	"subscription_cancelation": true,
 	"subscription_delayed":     true,
-	// PascalCase (Standard, Standard with Meta, Two-Level Flat, Custom Content models)
 	"CustomerCreated":               true,
 	"CustomerInterested":            true,
 	"CustomerContacted":             true,
