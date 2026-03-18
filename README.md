@@ -179,10 +179,12 @@ Quick process summary:
    - `URL de validação` (callback): `https://<your-public-domain>/integrations/appmax/callback/install`
 7. If `Desenvolver` does not appear, request enablement at `desenvolvedores@appmax.com.br` (app may still be under analysis).
 8. Callback URL is mandatory. Without it, installation does not complete.
-9. Appmax still needs to validate company/CNPJ/quadro societário and then sends sandbox credentials by email.
+9. Appmax still needs to validate company/CNPJ/shareholder structure and then sends sandbox credentials by email.
 
-Detailed guide: [How to Get Appmax Credentials and Configure Your App](docs/setup/how-to-get-appmax-credentials-and-configure-your-app.md)
-Official docs: <https://appmax.readme.io/> (for this project, prefer the docs in this repository for implementation details).
+References:
+
+- Detailed guide: [How to Get Appmax Credentials and Configure Your App](docs/setup/how-to-get-appmax-credentials-and-configure-your-app.md)
+- Official docs: <https://appmax.readme.io/> (for this project, prefer the docs in this repository for implementation details).
 
 ---
 
