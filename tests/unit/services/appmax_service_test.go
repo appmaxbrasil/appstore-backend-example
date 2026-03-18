@@ -5,10 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	gatewayappmax "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax"
-	gatewaycontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax/contracts"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	gatewayappmax "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax"
+	gatewaycontracts "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax/contracts"
+	"github.com/appmaxbrasil/appstore-backend-example/app/models"
+	"github.com/appmaxbrasil/appstore-backend-example/app/services"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

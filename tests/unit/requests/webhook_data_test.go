@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/requests"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/requests"
 )
 
 func TestWebhookDataRequest_OptionalInt_FromNumber(t *testing.T) {

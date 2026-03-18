@@ -12,9 +12,9 @@ import (
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/facades"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/requests"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/responses"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/requests"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/responses"
+	"github.com/appmaxbrasil/appstore-backend-example/app/services"
 )
 
 const appmaxCallTimeout = 3 * time.Minute

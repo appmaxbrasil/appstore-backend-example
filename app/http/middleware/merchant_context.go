@@ -3,7 +3,7 @@ package middleware
 import (
 	"github.com/goravel/framework/contracts/http"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
+	"github.com/appmaxbrasil/appstore-backend-example/app/repositories/contracts"
 )
 
 const InstallationContextKey = "installation"

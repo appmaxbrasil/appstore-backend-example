@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	"github.com/appmaxbrasil/appstore-backend-example/app/models"
+	"github.com/appmaxbrasil/appstore-backend-example/app/services"
 )
 
 type staticTokenManager struct{}

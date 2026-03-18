@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/tests/unit/support"
+	"github.com/appmaxbrasil/appstore-backend-example/tests/unit/support"
 )
 
 func TestMain(m *testing.M) {
