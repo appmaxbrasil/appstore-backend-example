@@ -22,10 +22,6 @@ and webhook processing for order status updates.
 
 ## API Documentation
 
-<a href="https://www.postman.com/geovannegallinati/appmax-full-integration-suite/documentation/52585908-1b3d2ef6-e083-456c-b4c1-fdc46a37f771?sideView=agentMode" target="_blank">
-  <img src="https://run.pstmn.io/button.svg" alt="Run in Postman">
-</a>
-
 | Resource | Link |
 |----------|------|
 | Postman API Documentation | <a href="https://www.postman.com/geovannegallinati/appmax-full-integration-suite/documentation/52585908-1b3d2ef6-e083-456c-b4c1-fdc46a37f771?sideView=agentMode" target="_blank">Open in Postman ↗</a> |
