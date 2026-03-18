@@ -13,14 +13,14 @@ const (
 )
 
 type AppmaxConfig struct {
-	AuthURL          string
-	APIURL           string
-	AdminURL         string
-	AppPublicURL     string
-	AppClientID      string
-	AppClientSecret  string
-	AppIDUUID        string
-	AppIDNumeric     string
+	AuthURL         string
+	APIURL          string
+	AdminURL        string
+	AppPublicURL    string
+	AppClientID     string
+	AppClientSecret string
+	AppIDUUID       string
+	AppIDNumeric    string
 }
 
 func LoadAppmaxConfigFromEnv() (AppmaxConfig, error) {
@@ -43,6 +43,8 @@ func LoadAppmaxConfigFromEnv() (AppmaxConfig, error) {
 	if strings.TrimSpace(appPublicURL) == "" {
 		appPublicURL = os.Getenv("APP_URL")
 	}
+	appPublicURL = strings.TrimSpace(appPublicURL)
+	appPublicURL = strings.TrimRight(appPublicURL, "/")
 
 	cfg := AppmaxConfig{
 		AuthURL:         authURL,

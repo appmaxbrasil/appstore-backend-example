@@ -10,7 +10,7 @@ These variables are environment-specific and must be set before running any requ
 
 | Variable | Mapped from `.env` | Notes |
 | --- | --- | --- |
-| `NGROK_URL` | `NGROK_URL` | Changes every ngrok session. Update whenever you restart ngrok. |
+| `NGROK_URL` | `NGROK_URL` | Changes every ngrok session. Update whenever you restart ngrok. Include the `https://` scheme (e.g., `https://foo.ngrok-free.app`). The collection pre-request script adds `https://` automatically if the scheme is missing and strips trailing slashes. |
 | `BASE_URL` | `APP_HOST` + `APP_PORT` | Default `http://localhost:8080` — change only if the server runs on a different port. |
 | `APPMAX_CLIENT_ID` | `APPMAX_CLIENT_ID` | Provided by Appmax when the app is registered. |
 | `APPMAX_CLIENT_SECRET` | `APPMAX_CLIENT_SECRET` | Provided by Appmax when the app is registered. |
@@ -30,6 +30,16 @@ These variables are hardcoded with stable sandbox infrastructure URLs and shared
 | `REDIRECT_BASE` | `https://breakingcode.sandboxappmax.com.br` | Merchant browser redirect base |
 | `CUSTOMER_ID` | `6933` | Default customer for the Appmax direct flow — overwritten by Create Customer requests. |
 | `AUTO_SYNC_MERCHANT_TOKEN` | `true` | Controls whether `MERCHANT_TOKEN` is refreshed automatically before each request that uses it. Set to `false` to disable. |
+
+### NGROK_URL Normalization
+
+A collection-level pre-request script runs before every request and normalizes `NGROK_URL`:
+
+- Strips trailing slashes
+- Adds `https://` if no scheme is present (e.g., `foo.ngrok-free.app` → `https://foo.ngrok-free.app`)
+
+This means you can set `NGROK_URL` with or without the scheme — the script handles it.
+`http://` URLs are left as-is (not automatically upgraded to `https://`).
 
 ---
 
