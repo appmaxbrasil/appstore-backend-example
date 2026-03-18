@@ -20,6 +20,7 @@ type UpsertInstallationInput struct {
 
 type InstallService interface {
 	Upsert(ctx context.Context, input UpsertInstallationInput) (inst *models.Installation, created bool, err error)
+	Find(ctx context.Context, externalKey string) (*models.Installation, error)
 }
 
 type installService struct {
@@ -34,6 +35,14 @@ func NewInstallService(installRepo contracts.InstallationRepository) (InstallSer
 	}
 
 	return &installService{installRepo: installRepo}, nil
+}
+
+func (s *installService) Find(ctx context.Context, externalKey string) (*models.Installation, error) {
+	inst, err := s.installRepo.FindByExternalKey(ctx, externalKey)
+	if err != nil {
+		return nil, fmt.Errorf("install find: %w", err)
+	}
+	return inst, nil
 }
 
 func (s *installService) Upsert(ctx context.Context, input UpsertInstallationInput) (*models.Installation, bool, error) {

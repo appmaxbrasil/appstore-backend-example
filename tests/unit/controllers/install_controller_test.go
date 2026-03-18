@@ -57,6 +57,10 @@ func (m *mockInstallSvcCapture) Upsert(ctx context.Context, input services.Upser
 	return &models.Installation{ExternalID: "default-ext-id"}, true, nil
 }
 
+func (m *mockInstallSvcCapture) Find(context.Context, string) (*models.Installation, error) {
+	return nil, nil
+}
+
 type fakeInstallState struct {
 	AppID       string
 	ExternalKey string

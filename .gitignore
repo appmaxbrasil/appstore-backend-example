@@ -1,4 +1,3 @@
-.sandbox-creds.json
 .env
 *.log
 *.out
@@ -6,8 +5,5 @@
 *.gocache
 *.txt
 *.pid
-appmax-auth-llm-context
-docs
-*.json
 *.DS_Store
-.gomodcache/
+*.gomodcache

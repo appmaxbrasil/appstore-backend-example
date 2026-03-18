@@ -60,6 +60,10 @@ func (noopInstallService) Upsert(context.Context, services.UpsertInstallationInp
 	return &models.Installation{}, true, nil
 }
 
+func (noopInstallService) Find(context.Context, string) (*models.Installation, error) {
+	return nil, nil
+}
+
 type noopTokenManager struct{}
 
 func (noopTokenManager) AppToken(context.Context) (string, error) {
