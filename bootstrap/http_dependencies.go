@@ -3,8 +3,8 @@ package bootstrap
 import (
 	"github.com/goravel/framework/facades"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
-	repocontracts "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/repositories/contracts"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/controllers"
+	repocontracts "github.com/appmaxbrasil/appstore-backend-example/app/repositories/contracts"
 )
 
 type HTTPDependencies struct {

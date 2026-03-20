@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	gatewayappmax "github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/gateway/appmax"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/models"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/services"
+	gatewayappmax "github.com/appmaxbrasil/appstore-backend-example/app/gateway/appmax"
+	"github.com/appmaxbrasil/appstore-backend-example/app/models"
+	"github.com/appmaxbrasil/appstore-backend-example/app/services"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/bootstrap"
+	"github.com/appmaxbrasil/appstore-backend-example/bootstrap"
 )
 
 func TestLoadAppmaxConfigFromEnv_MissingVariables(t *testing.T) {

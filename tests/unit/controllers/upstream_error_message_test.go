@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/controllers"
 	"github.com/stretchr/testify/assert"
 )
 

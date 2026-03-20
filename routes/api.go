@@ -4,9 +4,9 @@ import (
 	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
 
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/controllers"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/app/http/middleware"
-	"github.com/geovannegallinati/AppStore-Appmax-App-Integration/bootstrap"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/controllers"
+	"github.com/appmaxbrasil/appstore-backend-example/app/http/middleware"
+	"github.com/appmaxbrasil/appstore-backend-example/bootstrap"
 )
 
 func Api() {
