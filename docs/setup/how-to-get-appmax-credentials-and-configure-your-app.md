@@ -130,9 +130,9 @@ After the first local bootstrap, copy the printed URLs into the `Desenvolver` mo
 
 Example using an ngrok domain:
 
-- `Host`: `https://sana-sagittate-hyperemotively.ngrok-free.dev/install/start`
-- `URL do sistema`: `https://sana-sagittate-hyperemotively.ngrok-free.dev/`
-- `URL de validação`: `https://sana-sagittate-hyperemotively.ngrok-free.dev/integrations/appmax/callback/install`
+- `Host`: `https://your-name.ngrok-free.app/install/start`
+- `URL do sistema`: `https://your-name.ngrok-free.app/`
+- `URL de validação`: `https://your-name.ngrok-free.app/integrations/appmax/callback/install`
 
 Important:
 

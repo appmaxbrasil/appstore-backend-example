@@ -396,9 +396,9 @@ Use them in Appmax like this:
 Example:
 
 ```
-Frontend URL: https://sana-sagittate-hyperemotively.ngrok-free.dev/
-Install URL: https://sana-sagittate-hyperemotively.ngrok-free.dev/install/start
-Callback URL: https://sana-sagittate-hyperemotively.ngrok-free.dev/integrations/appmax/callback/install
+Frontend URL: https://your-name.ngrok-free.app/
+Install URL: https://your-name.ngrok-free.app/install/start
+Callback URL: https://your-name.ngrok-free.app/integrations/appmax/callback/install
 ```
 
 As of **March 20, 2026**, App Store URL changes are not automatically replicated into the Appmax sandbox. If you change them later, contact `desenvolvimento@appmax.com.br` and ask Appmax to replicate the update.
